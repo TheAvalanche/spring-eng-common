@@ -1,0 +1,29 @@
+# Generic #
+*~
+*.locl
+*.DS_Store
+*.swp
+*.out
+log.gen
+out
+
+# Java build files #
+*.class
+target/
+*.jar
+!gradle-wrapper.jar
+*.war
+*.ear
+
+
+# Project Files #
+*.iml
+.idea/
+.classpath
+.settings/
+.loadpath
+.launch
+
+# Gradle
+.gradle
+build/

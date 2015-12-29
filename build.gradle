@@ -1,0 +1,72 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.2.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = 'com.symphodia.spring'
+version = '1.07'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-ws")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-logging")
+    compile("com.google.guava:guava:18.0")
+    testCompile("org.codehaus.groovy:groovy-all:2.4.3")
+    testCompile("org.spockframework:spock-core:1.0-groovy-2.4")
+    testRuntime("cglib:cglib-nodep:3.1")
+    testRuntime("org.objenesis:objenesis:2.1")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            parent {
+                groupId = "org.springframework.boot"
+                artifactId = "spring-boot-starter-parent"
+                version = "1.2.2.RELEASE"
+            }
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "http://symphodia-org:8081/nexus/content/repositories/releases") {
+                authentication(userName: "deployment", password: "deployment123")
+            }
+            pom.version = version
+            pom.artifactId = rootProject.name
+            pom.groupId = 'com.symphodia.spring'
+
+            pom.project {
+                parent {
+                    groupId = "org.springframework.boot"
+                    artifactId = "spring-boot-starter-parent"
+                    version = "1.2.2.RELEASE"
+                }
+            }
+        }
+    }
+}
